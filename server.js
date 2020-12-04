@@ -19,6 +19,13 @@ connection.query('SELECT 1 + 1 AS solution', function (error, results, fields) {
   console.log('The solution is: ', results[0].solution);
 });
 
+figlet("Employee Manager", function (err, data) {
+    if (err) {
+      console.log("Issue");
+      console.dir(err);
+      return;
+    }
+
 // prompts for user 
 const promptStart = () => {
     return inquirer
@@ -70,37 +77,47 @@ const promptStart = () => {
       });
   }
 
-  //   functions for departements
+//   function to add employee 
 
-  allEmployees = () => {
-    console.log("View All Employees");
-    connection.query("select * from employee;", response, (err, res) => {
-      if (err) throw err;
-      console.table(res);
-      // connection.end();
-      promptStart();
-    });
-  };
+  addEmployee = () => {
+    console.log("Adding a New Employee");
+    return inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "first_name",
+          message: "What is the Employee's first name?",
+        },
+        {
+          type: "input",
+          name: "last_name",
+          message: "What is the Employee's Last Name",
+        },
+        {
+          type: "list",
+          name: "role",
+          message: "What is the Employees's Role?",
+        },
+        {
+          type: "list",
+          name: "manager",
+          message: "Who is the Employees's Manager?",
+        },
+        {
+          type: "number",
+          name: "salary",
+          message: "What is the Employee's Salary?",
+        },
+      ])
+      .then((response) => {
+        console.log(response);
+        connection.query(
+          `INSERT INTO employees (first_name, last_name, role_id, manager_id, salary) VALUES (${response.first_name}, ${response.last_name}, ${response.role}, ${response.manager}, ${response.salary});`,
+          response,
+          (err, res) => {
+            if (err) throw err;
+            console.log("New Employee Added!");
+          }
+        );
   
-
-  employeesByDepartment = () => {
-    console.log("View All Employees by Department");
-    connection.query("SELECT * FROM department;", response, (err, res) => {
-      if (err) throw err;
-      cTable(res);
-      promptUser();
-    });
-  };
-
-  employeesByManager = () => {
-    console.log("View All Employees by Manager.");
-    connection.query("SELECT * FROM manager", response, (err, res) => {
-      if (err) throw err;
-      cTable(res);
-      
-      promptUser();
-    });
-  };
-
-
-connection.end();
+  connection.end();
