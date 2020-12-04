@@ -1,6 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
 const cTable = require("console.table");
+const figlet = require("figlet");
 
 // node.js driver for mysql 
 var connection = mysql.createConnection({
@@ -68,4 +69,38 @@ const promptStart = () => {
         }
       });
   }
+
+  //   functions for departements
+
+  allEmployees = () => {
+    console.log("View All Employees");
+    connection.query("select * from employee;", response, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      // connection.end();
+      promptStart();
+    });
+  };
+  
+
+  employeesByDepartment = () => {
+    console.log("View All Employees by Department");
+    connection.query("SELECT * FROM department;", response, (err, res) => {
+      if (err) throw err;
+      cTable(res);
+      promptUser();
+    });
+  };
+
+  employeesByManager = () => {
+    console.log("View All Employees by Manager.");
+    connection.query("SELECT * FROM manager", response, (err, res) => {
+      if (err) throw err;
+      cTable(res);
+      
+      promptUser();
+    });
+  };
+
+
 connection.end();
