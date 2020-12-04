@@ -85,12 +85,12 @@ const promptStart = () => {
       .prompt([
         {
           type: "input",
-          name: "first_name",
+          name: "firstName",
           message: "What is the Employee's first name?",
         },
         {
           type: "input",
-          name: "last_name",
+          name: "lastName",
           message: "What is the Employee's Last Name",
         },
         {
@@ -112,7 +112,7 @@ const promptStart = () => {
       .then((response) => {
         console.log(response);
         connection.query(
-          `INSERT INTO employees (first_name, last_name, role_id, manager_id, salary) VALUES (${response.first_name}, ${response.last_name}, ${response.role}, ${response.manager}, ${response.salary});`,
+          `INSERT INTO employees (firstName, lastName, role_id, manager_id, salary) VALUES (${response.first_name}, ${response.last_name}, ${response.role}, ${response.manager}, ${response.salary});`,
           response,
           (err, res) => {
             if (err) throw err;
@@ -126,7 +126,7 @@ const promptStart = () => {
       console.log(err);
     });
 };
-  
+//   function for adding new role 
 addRole = () => {
     console.log("Adding a new role.");
     return inquirer
@@ -148,20 +148,21 @@ addRole = () => {
       });
   };
 
+//   function for adding new department 
   addDepartment = () => {
     console.log("Adding a department.");
     return inquirer
       .prompt([
         {
           type: "input",
-          name: "department_name",
+          name: "departmentName",
           message: "What is then name of the newly created department?",
         },
       ])
       .then((response) => {
         console.log(response);
         connection.query(`INSERT INTO department (name) VALUES ("Marketing")`, {
-          department_name: response.department_name,
+          departmentName: response.departmentName,
         });
         console.log("New department added!");
         promptUser();
@@ -170,5 +171,35 @@ addRole = () => {
         console.log(err);
       });
   };
+
+//   function to view all employees 
+
+Employees = () => {
+    console.log("View All Employees");
+    connection.query("select * from employee;", response, (err, res) => {
+      if (err) throw err;
+      console.table(res);
+      
+      promptStart();
+    });
+  };
   
+//   view all departments
+  Department = () => {
+    console.log("View All Employees by Department");
+    connection.query("SELECT * FROM department;", response, (err, res) => {
+      if (err) throw err;
+      cTable(res);
+      promptUser();
+    });
+  };
+
+//   function to view all roles 
+  Roles = () => {
+    connection.query("SELECT title FROM role", (err, res) => {
+      if (err) throw err;
+      const table = cTable.getTable(res);
+      console.log(table);
+      userOptions();
+    });
   connection.end();
