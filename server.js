@@ -1,10 +1,10 @@
-import { prompt } from "inquirer";
-import { createConnection } from "mysql";
-import cTable, { getTable } from "console.table";
-import figlet from "figlet";
+const inquirer = require("inquirer");
+const mysql = require("mysql");
+const cTable = require("console.table");
+const figlet = require("figlet");
 
 // node.js driver for mysql 
-var connection = createConnection({
+var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'valentino92!',
@@ -30,7 +30,8 @@ console.log (data);
 
 // prompts for user 
 const promptStart = async () => {
-    const { input } = await prompt([
+    const { input } = await inquirer
+        .prompt([
             {
                 type: "list",
                 name: "input",
@@ -80,7 +81,8 @@ const promptStart = async () => {
   addEmployee = async () => {
     console.log("Adding a New Employee");
     try {
-          const response = await prompt([
+          const response = await inquirer
+              .prompt([
                   {
                       type: "input",
                       name: "firstName",
@@ -127,7 +129,8 @@ const promptStart = async () => {
 addRole = async () => {
     console.log("Adding a new role.");
     try {
-        const response = await prompt([
+        const response = await inquirer
+            .prompt([
                 {
                     type: "input",
                     name: "newRole",
@@ -147,7 +150,8 @@ addRole = async () => {
 addDepartment = async () => {
 console.log("Adding a department.");
     try {
-        const response = await prompt([
+        const response = await inquirer
+            .prompt([
                 {
                     type: "input",
                     name: "departmentName",
@@ -191,7 +195,7 @@ console.table(res);
   Roles = () => {
     connection.query("SELECT title FROM role", (err, res) => {
       if (err) throw err;
-      const table = getTable(res);
+      const table = cTable.getTable(res);
       console.log(table);
     });
 
@@ -202,7 +206,8 @@ console.table(res);
     "SELECT employee.id, employee.firstName, employee.lastName, role.title, role.salary, department.name AS department, e2.first_name AS manager FROM employee LEFT JOIN employee AS e2 ON e2.id = employee.manager_id JOIN role ON employee.role_id = role.id JOIN department ON role.department_id = department.id ORDER BY employee.id",
     (err, res) => {
      if (err) throw err;
-    prompt([
+    inquirer
+    .prompt([
                 
         {
         name: "updateEmployee",
