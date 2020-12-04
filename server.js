@@ -147,4 +147,28 @@ addRole = () => {
         console.log(err);
       });
   };
+
+  addDepartment = () => {
+    console.log("Adding a department.");
+    return inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "department_name",
+          message: "What is then name of the newly created department?",
+        },
+      ])
+      .then((response) => {
+        console.log(response);
+        connection.query(`INSERT INTO department (name) VALUES ("Marketing")`, {
+          department_name: response.department_name,
+        });
+        console.log("New department added!");
+        promptUser();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  
   connection.end();
