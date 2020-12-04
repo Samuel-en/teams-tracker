@@ -119,5 +119,32 @@ const promptStart = () => {
             console.log("New Employee Added!");
           }
         );
+
+        promptUser();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
   
+addRole = () => {
+    console.log("Adding a new role.");
+    return inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "newRole",
+          message: "What is then name of the newly created role?",
+        },
+      ])
+      .then((response) => {
+        console.log(response);
+        connection.query(`INSERT INTO role SET ?`, { title: response.newRole });
+        console.log("New role added!");
+        promptUser();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   connection.end();
