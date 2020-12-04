@@ -35,13 +35,6 @@ SELECT * FROM roleTable;
 SELECT * FROM employeeTable;
 SELECT * FROM departmentTable;
 
-INSERT INTO roleTable (title, salary, department_id)
-VALUES ("CEO", "150000", "123");
 
-INSERT INTO employeeTable (firsName, lastName, role_id, manager_id)
-VALUES ("Thomas", "Endrias", "321", "321");
-
-INSERT INTO departmentTable (name)
-VALUES ("Samuel Endrias");
 
 
