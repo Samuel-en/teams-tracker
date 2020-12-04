@@ -25,7 +25,7 @@ once you are in follow commands in the line to use app.
 
 demonstration of application 
 
-* https://drive.google.com/file/d1AGkvZFWSjyGlXuu2ik7nOKupDft6GwCW/view
+* https://youtu.be/aBTrOKHYr5o
 
 # Credits
 
